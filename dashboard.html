@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" type="image/svg+xml">
+    <title>React App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Main styling inspired by Rwanda colors and layout */
+        body {
+            background-image: url('https://example.com/path-to-background-image.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .top-nav {
+            background-color: #006a4e;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-nav .logo {
+            width: 50px;
+            height: auto;
+        }
+
+        .search-bar {
+            flex: 1;
+            margin: 0 15px;
+            padding: 8px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+        }
+
+        .nav-icons span {
+            color: #ffd700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+
+        .sidebar {
+            background-color: #006a4e;
+            padding: 20px;
+            color: #fff;
+            min-height: 100vh;
+            position: fixed;
+            width: 250px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .sidebar ul li a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .sidebar ul li a:hover {
+            color: #fff;
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #5eff00;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .kpi-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .kpi {
+            flex: 1;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: #006a4e;
+        }
+
+        .kpi h2 {
+            color: #ffd700;
+            font-size: 1.6rem;
+        }
+
+        .footer {
+            background-color: #006a4e;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            margin-top: 40px;
+        }
+
+        .chart-container {
+            margin-top: 30px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top Navbar -->
+<header class="top-nav">
+    <img src="logo.png" alt="Government Logo" class="logo">
+    <input type="text" class="search-bar" placeholder="Search resolutions, users, etc.">
+    <div class="nav-icons">
+        <span class="notification-icon">🔔</span>
+        <span class="profile-menu">User ▼</span>
+    </div>
+</header>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <ul>
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#">Resolutions</a>
+            <ul>
+                <li><a href="#">All Resolutions</a></li>
+                <li><a href="#">Create New Resolution</a></li>
+                <li><a href="#">Pending Approvals</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Departments</a></li>
+        <li><a href="#">Users</a>
+            <ul>
+                <li><a href="#" id="userManagementLink">User Management</a></li>
+                <li><a href="#">Roles & Permissions</a></li>
+            </ul>
+        </li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Settings</a></li>
+        <li><a href="#">Help & Support</a></li>
+    </ul>
+</aside>
+
+<!-- Main Content -->
+<main class="content">
+    <h1>Dashboard Overview</h1>
+    <div class="kpi-section">
+        <div class="kpi">
+            <h2>Active Resolutions</h2>
+            <p id="activeResolutions">Loading...</p>
+        </div>
+        <div class="kpi">
+            <h2>Pending Resolutions</h2>
+            <p id="pendingResolutions">Loading...</p>
+        </div>
+        <div class="kpi">
+            <h2>Departments</h2>
+            <p id="departmentCount">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <section class="chart-container">
+        <h2>Statistics Overview</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section id="activityFeed" class="mt-4">
+        <h2>Recent Activity</h2>
+        <ul id="activityList" class="list-group">
+            <!-- Recent activity will be dynamically added here -->
+        </ul>
+    </section>
+
+    <section id="userTableContainer" class="mt-4">
+        <h2>User Management</h2>
+        <div class="card">
+            <div class="card-body">
+                <table id="userTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Fetched users will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>&copy; Government of Rwanda. All rights reserved.</p>
+    <a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of Service</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const userTableBody = document.querySelector("#userTable tbody");
+
+    // Function to fetch and display users
+    function fetchUsers() {
+        fetch("http://localhost:4000/api/users/all")
+            .then(response => response.json())
+            .then(data => {
+                userTableBody.innerHTML = "";
+                data.forEach(user => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm delete-button" data-id="${user.id}">
+                                Delete
+                            </button>
+                        </td>
+                    `;
+                    userTableBody.appendChild(row);
+                });
+                addDeleteEventListeners();
+            })
+            .catch(error => console.error("Error fetching users:", error));
+    }
+
+    // Function to add event listeners for delete buttons
+    function addDeleteEventListeners() {
+        document.querySelectorAll(".delete-button").forEach(button => {
+            button.addEventListener("click", (event) => {
+                const userId = event.target.getAttribute("data-id");
+                deleteUser(userId);
+            });
+        });
+    }
+
+    // Function to delete a user
+    function deleteUser(userId) {
+        fetch(`http://localhost:4000/api/users/delete`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: userId })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("User deleted successfully!");
+                fetchUsers(); // Refresh the user list
+            } else {
+                alert("Failed to delete user.");
+            }
+        })
+        .catch(error => console.error("Error deleting user:", error));
+    }
+
+    // Trigger fetchUsers when the "User Management" link is clicked
+    document.getElementById("userManagementLink").addEventListener("click", (e) => {
+        e.preventDefault();
+        fetchUsers();
+    });
+
+    // Chart.js setup
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+
+    const barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Active', 'Pending', 'Archived'],
+            datasets: [{
+                label: 'Resolutions',
+                data: [12, 19, 3], // Replace with your data
+                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const pieChart = new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Department A', 'Department B', 'Department C'],
+            datasets: [{
+                label: 'Department Distribution',
+                data: [30, 50, 20], // Replace with your data
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>

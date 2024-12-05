@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" type="image/svg+xml">
+    <title>React App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="top-nav">
+        <img src="logo.png" alt="Government Logo" class="logo">
+        <input type="text" class="search-bar" placeholder="Search resolutions, users, etc.">
+        <div class="nav-icons">
+            <span class="notification-icon">🔔</span>
+            <span class="profile-menu">User ▼</span>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Resolutions</a>
+                <ul>
+                    <li><a href="#">All Resolutions</a></li>
+                    <li><a href="#">Create New Resolution</a></li>
+                    <li><a href="#">Pending Approvals</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Departments</a></li>
+            <li><a href="#">Users</a>
+                <ul>
+                    <li><a href="#" id="userManagement">User Management</a></li>
+                    <li><a href="#">Roles & Permissions</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Help & Support</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <h1>Dashboard Overview</h1>
+        <div class="kpi-section">
+            <div class="kpi">
+                <h2>Active Resolutions</h2>
+                <p id="activeResolutions">Loading...</p>
+            </div>
+            <div class="kpi">
+                <h2>Pending Resolutions</h2>
+                <p id="pendingResolutions">Loading...</p>
+            </div>
+            <div class="kpi">
+                <h2>Departments</h2>
+                <p id="departmentCount">Loading...</p>
+            </div>
+        </div>
+        
+        <section id="activityFeed">
+            <h2>Recent Activity</h2>
+            <ul id="activityList">
+                <!-- Recent activity will be dynamically added here -->
+            </ul>
+        </section>
+
+        <section id="userTableContainer">
+            <h2>User Management</h2>
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Fetched users will be populated here -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; Government of Rwanda. All rights reserved.</p>
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+    </footer>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
